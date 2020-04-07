@@ -20,11 +20,12 @@ def handleFileUpload():
     if 'photo' in request.files:
         photo = request.files['photo']
         if photo.filename != '' and is_pdf(photo.filename):
+            curr_path=os.getcwd()
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
-            photo.save(os.path.join('/tmp/', name))
-            os.system('./abiword --to=doc '+ '/tmp/'+name)
+            photo.save(name)
+            os.system('./abiword --to=doc '+ name)
             fileName = name[:-4]+'.doc'
-            return send_file('/tmp/'+fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
+            return send_from_directory(os.getcwd(),fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
 
        # else :
        #     return redirect(url_for('fileErrPage'))
