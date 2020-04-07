@@ -25,7 +25,7 @@ def handleFileUpload():
             os.system('./abiword --to=doc '+ name)
             global fileName
             fileName = name[:-4]+'.doc'
-            return send_file('./'+fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
+            return send_file(fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
 
        # else :
        #     return redirect(url_for('fileErrPage'))
