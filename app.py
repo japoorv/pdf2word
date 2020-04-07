@@ -23,9 +23,9 @@ def handleFileUpload():
             curr_path=os.getcwd()
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
             photo.save(name)
-            os.system('abiword --to=doc '+ name)
-            fileName = name[:-4]+'.doc'
-            return send_from_directory(os.getcwd(),fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
+            #os.system('abiword --to=doc '+ name)
+            fileName = name[:-4]+'.pdf'
+            return send_from_directory(os.getcwd(),fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.pdf')
 
        # else :
        #     return redirect(url_for('fileErrPage'))
