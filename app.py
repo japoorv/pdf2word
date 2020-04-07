@@ -21,7 +21,7 @@ def handleFileUpload():
         photo = request.files['photo']
         if photo.filename != '' and is_pdf(photo.filename):
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
-            photo.save(os.path.join('./', name))
+            photo.save(os.path.join('/app/', name))
             os.system('./abiword --to=doc '+ name)
             global fileName
             fileName = name[:-4]+'.doc'
