@@ -21,11 +21,9 @@ def handleFileUpload():
         photo = request.files['photo']
         if photo.filename != '' and is_pdf(photo.filename):
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
-            photo.save(os.path.join('/app/', name))
-            os.system('./abiword --to=doc '+ name)
-            global fileName
-            fileName = name[:-4]+'.doc'
-            return send_file(fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
+            photo.save(os.path.join('/tmp/', name))
+            os.system('./abiword --to=doc '+ '/tmp/'+name)
+            return send_file('/tmp/'+fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
 
        # else :
        #     return redirect(url_for('fileErrPage'))
@@ -33,6 +31,5 @@ def handleFileUpload():
      #   return redirect(url_for('fileErrPage'))
 
     return redirect(url_for('fileFrontPage'))
-fileName =''
 if __name__=='__main__':
         app.run()
