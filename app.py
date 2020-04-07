@@ -1,4 +1,6 @@
 import os
+import os.path
+import subprocess
 from flask import Flask, request, render_template, url_for, redirect
 
 app = Flask(__name__)
@@ -9,19 +11,25 @@ def is_pdf(name):
         return True
     else :
         return False
-        
+
+@app.route("/download",methods=['GET','POST'])
+def download() :
+    return '<a href="'+request.args['fileName']+'" download>Download converted file.</a>'
+    
+
 @app.route("/")
 def fileFrontPage():
     return render_template('fileform.html')
-def fileErrPage():
-    return render_template('file_form_err.html')
+
 @app.route("/handleUpload", methods=['POST'])
 def handleFileUpload():
     if 'photo' in request.files:
         photo = request.files['photo']
         if photo.filename != '' and is_pdf(photo.filename):
-            photo.save(os.path.join('./', '1.pdf'))
-            os.system('abiword --to=doc 1.pdf')
+            name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
+            photo.save(os.path.join('./', name))
+            os.system('abiword --to=doc'+ name)
+            return redirect(url_for('download',fileName=name[:-4]+'.doc'))
        # else :
        #     return redirect(url_for('fileErrPage'))
     #else :
