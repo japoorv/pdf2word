@@ -6,13 +6,12 @@ from flask import Flask, request, render_template, url_for, redirect
 app = Flask(__name__)
 
 def is_pdf(name):
-    print (name[-4:])
     if (name[-4:]=='.pdf'):
         return True
     else :
         return False
 
-@app.route("/download",methods=['GET','POST'])
+@app.route("/download",methods=['POST'])
 def download() :
     return '<a href="'+request.args['fileName']+'" download>Download converted file.</a>'
     
@@ -29,7 +28,7 @@ def handleFileUpload():
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
             photo.save(os.path.join('./', name))
             os.system('abiword --to=doc'+ name)
-            return redirect(url_for('download',fileName=name[:-4]+'.doc'))
+            return '<a href="'+name[:-4]+'.doc'+'" download>Download converted file.</a>'
        # else :
        #     return redirect(url_for('fileErrPage'))
     #else :
