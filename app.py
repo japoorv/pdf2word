@@ -23,6 +23,7 @@ def handleFileUpload():
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
             photo.save(os.path.join('/tmp/', name))
             os.system('./abiword --to=doc '+ '/tmp/'+name)
+            fileName = name[:-4]+'.doc'
             return send_file('/tmp/'+fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
 
        # else :
