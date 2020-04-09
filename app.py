@@ -23,7 +23,7 @@ def handleFileUpload():
             curr_path=os.getcwd()
             name = str(len([name for name in os.listdir('.') if os.path.isfile(name)]))+'.pdf'
             photo.save(name)
-            os.system('soffice --infilter="writer_pdf_import" --convert-to doc '+ name)
+            os.system('abiword --to=doc '+ name)
             fileName = name[:-4]+'.doc'
             return send_from_directory(os.getcwd(),fileName,as_attachment=True,attachment_filename=photo.filename[:-4]+'.doc')
 
